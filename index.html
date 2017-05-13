@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ledongli</title>
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>  
+    </head>
+    <body style="text-align: center; margin-top: 100px; ">
+        <div>
+			<input id="steps" placeholder="步数" style="width: 300px;"/>
+		</div>
+		<div>
+			<input id="uid" placeholder="uid" value="66628311" style="width: 300px;"/>
+		</div>
+		<div>
+			<input id="pc" placeholder="pc" value="an1bed1c0d16a819c123d5d00c66590a61" style="width: 300px;"/>
+		</div>
+		<div>
+			<button id="submit">提交</button>
+		</div>
+		<script>
+			$("#submit").click(function(e) {
+				var steps = $("#steps").val(), uid = $("#uid").val(), pc=$("#pc").val();
+				if(!steps || !uid) return;
+				var mDistance=steps/1.4,mCalories=steps/25.8,mDuration=steps/200;
+				var date = new Date(), date = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()/1000;
+				var key = "ldl_pro@"+date+"#"+parseInt(steps)+"$"+parseInt(mDistance)+"^"+parseInt(mCalories)+"&"+parseInt(mDuration);
+				var stats = [{"calories":mCalories,"date":date,"distance":parseInt(mDistance),"duration":parseInt(mDuration),"steps":+steps,"key":md5(key)}];
+				
+				//var calories = 3.5970710182560004, date = 1494604800, distance=86.8806, duration=0, steps=93;
+				//var key = "ldl_pro@"+date+"#"+parseInt(steps)+"$"+parseInt(distance)+"^"+parseInt(calories)+"&"+parseInt(duration);
+				console.log(key, md5(key))
+				//return;
+				//stats = [{"calories":3.5970710182560004,"date":1494604800,"distance":86.8806,"duration":0,"steps":93,"key":"07c2a0be8fe3d7ff664eda9d4ad183ac"}]
+						  //[{"calories":4.767441860465116, "date":1494604800,"distance":113,    "duration":1,"steps":"123","key":"542908b7715db2cbe40250bcfd1cada7"}]
+				$.ajax({
+					url:'http://walk.ledongli.cn/rest/dailystats/upload/v3?uid='+uid,
+					type:'POST',
+					dataType:'json',
+					data:{
+						"pc": pc,
+						"stats": JSON.stringify(stats)
+					},
+					success: function(res) {
+						console.log(res);
+					},
+					error: function(msg) {
+						console.log(msg);
+					}
+				});
+				
+			});
+		</script>
+    </body>
+</html>
