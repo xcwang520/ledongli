@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name='apple-itunes-app' content='app-id=1144816653'>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>临安工商</title>
+</head>
+<body>
+	<div id="iosTip" style="display: none;">
+		<a href="javascript:;" id="openIosApp">在APP中打开</a>
+	</div>
+	<div id="androidTip" style="display: none;">
+		<a href="javascript:;" id="openAndroidApp">在APP中打开</a>
+	</div>
+</body>
+<script type="text/javascript">
+	var Terminal = {
+		platform : function() {
+			var u = navigator.userAgent.toLowerCase(), app = navigator.appVersion.toLowerCase();
+			return {
+				android: u.indexOf("android") > -1 || u.indexOf("linux") > -1,
+				iPhone: u.indexOf("iphone") > -1,
+				iPad: u.indexOf("ipad") > -1,
+				weChat: u.indexOf("micromessenger") > -1
+			};
+		}(),
+		language: (navigator.browserLanguage || navigator.language).toLowerCase()
+	}
+	if(Terminal.platform.android) {
+		document.getElementById("androidTip").style.display = "";
+		document.getElementById('openAndroidApp').onclick = function(e){
+			window.location.href = 'com.baidu.tieba://';
+			setTimeout(function() {
+				window.location.href = "https://itunes.apple.com/cn/app/id477927812";
+			}, 1000);
+		};
+		document.getElementById('openAndroidApp').click();
+	} else if(Terminal.platform.iPhone || Terminal.platform.iPad) {
+		document.getElementById('openIosApp').onclick = function(e){
+			// window.location.href = 'com.baidu.tieba://';
+            window.location.href = 'cn.linangongshang://';
+			setTimeout(function() {
+				window.location.href = "https://itunes.apple.com/cn/app/id477927812";
+			}, 1000);
+		};
+		document.getElementById('openIosApp').click();
+	} else if(Terminal.platform.iPad) {
+
+	}
+</script>
